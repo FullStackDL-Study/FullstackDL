@@ -5,5 +5,5 @@
 - 매 회주 스터디가 끝난 후 회고를 진행하고, 진행했던 내용을 Log 로 남김 (멤버공개)
 
 ---
-#Member
+# Member
 [rukka0808](https://github.com/rukka0808)
