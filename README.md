@@ -7,4 +7,4 @@ ___
 
 ___
 # Member
-[rukka0808](https://github.com/rukka0808)
+- [rukka0808](https://github.com/rukka0808)
