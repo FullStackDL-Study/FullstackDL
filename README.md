@@ -7,9 +7,9 @@ ___
 
 ___
 # Member
-- [rukka0808](https://github.com/rukka0808)
-- [dayeoni-1376](https://github.com/dayeoni-1376)
-- [fifane](https://github.com/fifane)
-- [sosick377](https://github.com/sosick377)
+- [허원재](https://github.com/rukka0808)
+- [엄다연](https://github.com/dayeoni-1376)
+- [돌핀](https://github.com/fifane)
+- [여상엽](https://github.com/sosick377)
 
 ___
