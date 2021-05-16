@@ -8,3 +8,4 @@ ___
 ___
 # Member
 - [rukka0808](https://github.com/rukka0808)
+- [dayeoni-1376](https://github.com/dayeoni-1376)
