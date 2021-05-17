@@ -9,7 +9,7 @@ ___
 # Member
 - [허원재](https://github.com/rukka0808)
 - [엄다연](https://github.com/dayeoni-1376)
-- [](https://github.com/fifane)
+- [조준우](https://github.com/fifane)
 - [여상엽](https://github.com/sosick377)
 
 ___
