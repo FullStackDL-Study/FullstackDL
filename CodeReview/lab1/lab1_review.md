@@ -77,3 +77,4 @@ def _download_raw_dataset(metadata: Dict, dl_dirname: Path) -> Path:
 
 
 ```
+필요한 라이브러리들을 import하고 load_and_print_info()를 정의합니다. 
