@@ -32,6 +32,8 @@
 # text_recognizer/lit_models
 라이트닝 모듈의 기저 클래스를 정의합니다.
 
+[PyTorch Lightning](https://baeseongsu.github.io/posts/pytorch-lightning-introduction/) 관련 
+
 [base.py](#base.py)
 
 # base_data_module.py  
