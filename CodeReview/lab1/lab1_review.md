@@ -78,3 +78,34 @@ def _download_raw_dataset(metadata: Dict, dl_dirname: Path) -> Path:
 
 ```
 필요한 라이브러리들을 import하고 load_and_print_info()를 정의합니다. 
+
+add_to_argparse()는 아래에서 staticmethod로 클래스 내부에 정의되지만 self를 argument로 받지 않아 클래스 객체 instantiation 없이 호출할 수 있습니다. (추가설명 필요)
+
+_ download_raw_dataset()함수를 정의, 앞의 언더바는 이 함수가 내부 사용을 권장한다는 의미이다. 지정된 위치에 디렉토리를 만들고, 다운로드 후 처리 과정을 거칩니다. 디렉토리를 만들 때, 부모 디렉토리가 없으면 그것도 생성하고, 이미 있는 디렉토리라면 오류 없이 다음으로 넘어갑니다.
+
+
+```python
+BATCH_SIZE = 128
+NUM_WORKERS = 0
+
+
+class BaseDataModule(pl.LightningDataModule):
+    """
+    Base DataModule.
+    Learn more at https://pytorch-lightning.readthedocs.io/en/stable/datamodules.html
+    """
+
+    def __init__(self, args: argparse.Namespace = None) -> None:
+        super().__init__()
+        self.args = vars(args) if args is not None else {} # To Dictionary
+        self.batch_size = self.args.get("batch_size", BATCH_SIZE)
+        self.num_workers = self.args.get("num_workers", NUM_WORKERS)
+
+        # Make sure to set the variables below in subclasses
+        self.dims = None
+        self.output_dims = None
+        self.mapping = None
+```
+
+pytorch_lightning.LightningDataModule을 상속하는 BaseDataModule 클래스를 정의합니다. 이후 사용하는 데이터셋은 모두 BaseDataModule을 상속하므로, 전부 LightningDataModule의
+subclass라고 할 수 있습니다.
