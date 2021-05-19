@@ -108,4 +108,126 @@ class BaseDataModule(pl.LightningDataModule):
 ```
 
 pytorch_lightning.LightningDataModule을 상속하는 BaseDataModule 클래스를 정의합니다. 이후 사용하는 데이터셋은 모두 BaseDataModule을 상속하므로, 전부 LightningDataModule의
-subclass라고 할 수 있습니다. ()
+subclass라고 할 수 있습니다.(중요)
+
+LightningDataModule을 사용할 때의 장점은 일관된 데이터 준비, 로딩입니다. 모든 데이터셋에 같은 command line parameter를 사용하여 batch size와 num worker들을 정할 수 있고 data split 역시 pytorch_lightning.trainer에 LightningDataModule 객체만 넣어주면 내부에서 setup함수를 통해 정의된 train_dataloader등을 알아서 사용하므로, 코드가 매우 간편해집니다.
+
+vars는 argument를 dictionary로 만들어줍니다.
+
+```python
+    @classmethod
+    def data_dirname(cls):
+        return Path(__file__).resolve().parents[3] / "data"
+
+    @staticmethod
+    def add_to_argparse(parser):
+        parser.add_argument(
+            "--batch_size", type=int, default=BATCH_SIZE, help="Number of examples to operate on per forward step."
+        )
+        parser.add_argument(
+            "--num_workers", type=int, default=NUM_WORKERS, help="Number of additional processes to load data."
+        )
+        return parser
+
+    def config(self):
+        """Return important settings of the dataset, which will be passed to instantiate models."""
+        return {"input_dims": self.dims, "output_dims": self.output_dims, "mapping": self.mapping}
+
+    def prepare_data(self):
+        """
+        Use this method to do things that might write to disk or that need to be done only from a single GPU in distributed settings (so don't set state `self.x = y`).
+        """
+        pass
+
+    def setup(self, stage=None):
+        """
+        Split into train, val, test, and set dims.
+        Should assign `torch Dataset` objects to self.data_train, self.data_val, and optionally self.data_test.
+        """
+        self.data_train = None
+        self.data_val = None
+        self.data_test = None
+
+    def train_dataloader(self):
+        return DataLoader(self.data_train, shuffle=True, batch_size=self.batch_size, num_workers=self.num_workers, pin_memory=True)
+
+    def val_dataloader(self):
+        return DataLoader(self.data_val, shuffle=False, batch_size=self.batch_size, num_workers=self.num_workers, pin_memory=True)
+
+    def test_dataloader(self):
+        return DataLoader(self.data_test, shuffle=False, batch_size=self.batch_size, num_workers=self.num_workers, pin_memory=True)
+```
+data_dirname은 데이터가 존재하는 디렉토리를 지정합니다
+함수들 prepare_data, setup 은 상속받는 클래스에서 override해야 합니다.
+
+
+# util.py
+```python
+"""Base Dataset class."""
+from typing import Any, Callable, Dict, Sequence, Tuple, Union
+import torch
+
+
+SequenceOrTensor = Union[Sequence, torch.Tensor]
+
+
+class BaseDataset(torch.utils.data.Dataset):
+    """
+    Base Dataset class that simply processes data and targets through optional transforms.
+
+    Read more: https://pytorch.org/docs/stable/data.html#torch.utils.data.Dataset
+
+    Parameters
+    ----------
+    data
+        commonly these are torch tensors, numpy arrays, or PIL Images
+    targets
+        commonly these are torch tensors or numpy arrays
+    transform
+        function that takes a datum and returns the same
+    target_transform
+        function that takes a target and returns the same
+    """
+
+    def __init__(
+        self,
+        data: SequenceOrTensor,
+        targets: SequenceOrTensor,
+        transform: Callable = None,
+        target_transform: Callable = None,
+    ) -> None:
+        if len(data) != len(targets):
+            raise ValueError("Data and targets must be of equal length")
+        self.data = data
+        self.targets = targets
+        self.transform = transform
+        self.target_transform = target_transform
+
+    def __len__(self):
+        """Return length of the dataset."""
+        return len(self.data)
+
+    def __getitem__(self, index: int) -> Tuple[Any, Any]:
+        """
+        Return a datum and its target, after processing by transforms.
+
+        Parameters
+        ----------
+        index
+
+        Returns
+        -------
+        (datum, target)
+        """
+        datum, target = self.data[index], self.targets[index]
+
+        if self.transform is not None:
+            datum = self.transform(datum)
+
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+
+        return datum, target
+```
+
+
