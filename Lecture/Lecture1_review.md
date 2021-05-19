@@ -11,7 +11,7 @@ sigmoid의 경우 어떠한 분수가 들어가도 0과1의 두가지 경우만 
 ## 2. universality
 universal approximation이란 1개의 히든 레이어를 가진 Neural Network를 이용해 어떠한 함수든 근사시킬 수 있다는 이론을 말한다.
 ## 3. learning problems
-## 4. gradient descent
-## 5. empirical risk minimization and loss functions
+## 4. risk minimization and loss functions
+## 5. gradient descent
 ## 6. back propagation and automatic differentiation.
 ## 7. architectural consideration
