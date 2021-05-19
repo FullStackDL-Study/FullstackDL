@@ -7,9 +7,10 @@ ___
 ![2](https://user-images.githubusercontent.com/63699718/118811659-39686b00-b8e8-11eb-96f3-61aa65365f06.PNG)
 3) activation function에는 여러개가 있고 그중 몇가지가 sigmoiod function, hyperbolic tangent, rectified linear unit(ReLU) 이다.
 ![3](https://user-images.githubusercontent.com/63699718/118837696-0c27b700-b900-11eb-9d3c-5e141796f5c7.PNG)
-## 2. universality. learning problems
-
-## 3. gradient descent
-## 4. empirical risk minimization and loss functions
-## 5. back propagation and automatic differentiation.
-## 6. architectural consideration
+## 2. universality
+universal approximation이란 1개의 히든 레이어를 가진 Neural Network를 이용해 어떠한 함수든 근사시킬 수 있다는 이론을 말한다.
+## 3. learning problems
+## 4. gradient descent
+## 5. empirical risk minimization and loss functions
+## 6. back propagation and automatic differentiation.
+## 7. architectural consideration
