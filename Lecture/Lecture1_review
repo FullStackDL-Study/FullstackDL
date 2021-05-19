@@ -1,1 +1,9 @@
+##1. neural networks
+1) 뉴럴넷은 인간의 뉴런에서 영감을 받아 만들어졌다.
 
+
+##2. universality. learning problems
+##3. gradient descent
+##4. empirical risk minimization and loss functions
+##5. back propagation and automatic differentiation.
+##6. architectural consideration
