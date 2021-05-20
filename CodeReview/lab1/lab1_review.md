@@ -229,5 +229,74 @@ class BaseDataset(torch.utils.data.Dataset):
 
         return datum, target
 ```
+data와 target에 적절한 transform을 가한 뒤 반환합니다. 반드시 `__len__` 함수와 `__getitem`가 반드시 정의되어야 합니다
 
+```python
+
+def convert_strings_to_labels(strings: Sequence[str], mapping: Dict[str, int], length: int) -> torch.Tensor:
+    """
+    Convert sequence of N strings to a (N, length) ndarray, with each string wrapped with <S> and <E> tokens,
+    and padded with the <P> token.
+    """
+    labels = torch.ones((len(strings), length), dtype=torch.long) * mapping["<P>"]
+    for i, string in enumerate(strings):
+        tokens = list(string)
+        tokens = ["<S>", *tokens, "<E>"]
+        for ii, token in enumerate(tokens):
+            labels[i, ii] = mapping[token]
+    return labels
+
+"""
+convert_strings_to_labels("DGOG", {"D":0, "O":5, "G":62 ,"<P>":2, "<S>":3, "<E>":4}, 7)
+tensor([[ 3,  0,  4,  2,  2,  2,  2],
+        [ 3, 62,  4,  2,  2,  2,  2],
+        [ 3,  5,  4,  2,  2,  2,  2],
+        [ 3, 62,  4,  2,  2,  2,  2]])
+"""
+```
+의미있는 부분의 앞뒤에 < S >, < E > 토큰을 넣고, 나머지 빈칸에는 < P >(Padding)토큰을 넣어 labeling한 label:list 를 반환합니다. emnist로 문장을 만들 때 필요합니다.
+
+# base.py
+
+LightningModule은 torch.nn.Module을 training, validation, test과정과 그에 쓰이는 optimizer를 합쳐 하나로 포장해둔 클래스입니다.
+
+```python
+import argparse
+import pytorch_lightning as pl
+import torch
+
+
+OPTIMIZER = "Adam"
+LR = 1e-3
+LOSS = "cross_entropy"
+ONE_CYCLE_TOTAL_STEPS = 100
+
+
+class BaseLitModel(pl.LightningModule):
+    """
+    Generic PyTorch-Lightning class that must be initialized with a PyTorch module.
+    """
+
+    def __init__(self, model, args: argparse.Namespace = None):
+        super().__init__()
+        self.model = model
+        self.args = vars(args) if args is not None else {}
+
+        optimizer = self.args.get("optimizer", OPTIMIZER)
+        self.optimizer_class = getattr(torch.optim, optimizer)
+
+        self.lr = self.args.get("lr", LR)
+
+        loss = self.args.get("loss", LOSS)
+        if not loss in ("ctc", "transformer"):
+            self.loss_fn = getattr(torch.nn.functional, loss)
+
+        self.one_cycle_max_lr = self.args.get("one_cycle_max_lr", None)
+        self.one_cycle_total_steps = self.args.get("one_cycle_total_steps", ONE_CYCLE_TOTAL_STEPS)
+
+        self.train_acc = pl.metrics.Accuracy()
+        self.val_acc = pl.metrics.Accuracy()
+        self.test_acc = pl.metrics.Accuracy()
+```
+self.args.get(key, Val)는 args:Dict 에 key가 있으면 그 key의 value를 반환하고, args에 key가 없으면 Val을 반환합니다. 디폴트를 지정해 둘 때 쓸 수 있겠네요.
 
