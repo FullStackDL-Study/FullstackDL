@@ -26,10 +26,13 @@ Convolution Layer에 n개의 필터가 적용된다면 출력 데이터는 n개�
 합성곱의 수학적 배경은 A guide to convolution arithmetic for deeplearning에서 추가로 확인 할 수 있습니다.
 
 질문사항1)??? 이해불가
+
 질문사항2) 합성곱 필터는 언제나 정사각형인가요?
 답변: 수학적으로는 정사각형일 필요 없지만 아닌 적을 본 적 없습니다.
+
 질문사항3) 합성곱 필터의 크기는 어떻게 정하나요?
 답변: 뒤에서 이야기하지만 보통 직관과 경험에 의존합니다.
+
 질문사항4)??? 이해불가
 
 ## 5. Convolution Implementation Notes
