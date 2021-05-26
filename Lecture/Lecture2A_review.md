@@ -21,7 +21,16 @@ Convolution Layer에 n개의 필터가 적용된다면 출력 데이터는 n개�
 ![4](https://user-images.githubusercontent.com/63699718/119655817-f3ba1e00-be64-11eb-9988-6988e12d56c3.PNG)
 
 ## 4. Filter Math
+한 합성곱의 output의 size가 무엇인지 어떻게 계산할 수 있을까요. 이는 뉴럴넷을 설계할때 그전 layer의 size가 다음 layer를 만들때 영향을 끼치기에 중요한 질문입니다. 이에 영향을 끼치는 파라미터들은 필터의 개수(stack), 스트라이드, 패딩으로 이것들은 중요합니다. 
 
+합성곱의 수학적 배경은 A guide to convolution arithmetic for deeplearning에서 추가로 확인 할 수 있습니다.
+
+질문사항1)??? 이해불가
+질문사항2) 합성곱 필터는 언제나 정사각형인가요?
+답변: 수학적으로는 정사각형일 필요 없지만 아닌 적을 본 적 없습니다.
+질문사항3) 합성곱 필터의 크기는 어떻게 정하나요?
+답변: 뒤에서 이야기하지만 보통 직관과 경험에 의존합니다.
+질문사항4)??? 이해불가
 
 ## 5. Convolution Implementation Notes
 ## 6. Increasing the Receptive Field with Dilated Convolutions
