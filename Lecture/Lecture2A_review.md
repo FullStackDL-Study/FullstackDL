@@ -12,10 +12,17 @@
 위 그림은 필터를 적용시키는 걸 보여줍니다. 여기서 패딩과 스트라이드의 개념이 나오는데 이는 아래에 서술합니다.
 
 ##2. Filter Stacks and ConvNets
-input과 output은 여러 channel를 가질 수 있습니다. 여기서 channel이란 Convolution Layer에 유입되는 입력 데이터에는 한 개 이상의 필터를 말합니다. 1개 필터는 Feature Map의 채널이 됩니다. Convolution Layer에 n개의 필터가 적용된다면 출력 데이터는 n개의 채널을 갖게 됩니다.
+input과 output은 여러 channel를 가질 수 있습니다. 여기서 channel이란 Convolution Layer에 유입되는 입력 데이터에는 한 개 이상의 필터를 말합니다. 1개 필터는 Feature Map의 채널이 됩니다.
+Convolution Layer에 n개의 필터가 적용된다면 출력 데이터는 n개의 채널을 갖게 됩니다.
+
 ##3. Strides and Padding
-스트라이드란 한 번 합성곱 연산한 후 다음 계산 영역을 선택할때 얼마나 이동할지 간격을 정하는 값입니다. 위 사진에서는 stride가 1인 경우 였습니다. 
+스트라이드란 한 번 합성곱 연산한 후 다음 계산 영역을 선택할때 얼마나 이동할지 간격을 정하는 값입니다. 위 사진에서는 stride가 1인 경우 였습니다. 근데 만약 스트라이드가 3쯤이되어서 합성곱하는 부분이 그림을 벗어나게 되면 계산하는데 문제가 생깁니다. 그래서 이를 해결하기위해 padding이 등장합니다. 패딩은 출력 데이터의 차원을 키워주는 방법입니다. 보통 0을 가장자리에 집어넣어 해결합니다. 그럼으로써 스트라이드가 3이여서 생기는 문제도 해결 할 수 있습니다. 
+
+![4](https://user-images.githubusercontent.com/63699718/119655817-f3ba1e00-be64-11eb-9988-6988e12d56c3.PNG)
+
 ##4. Filter Math
+
+
 ##5. Convolution Implementation Notes
 ##6. Increasing the Receptive Field with Dilated Convolutions
 ##7. Decreasing the Tensor Size with Pooling and 1x1-Convolutions
