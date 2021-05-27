@@ -60,4 +60,28 @@ generate에서 얻은 인자만으로 지정할 수 있게 했습니다.
 넘지 않게 하는 end_ind_candidates를 얻고, sampling을 끝낼 지점을 추출합니다. max_length보다 긴 문자열이 sampling되는 경우도 존재하므로, 10번의 sampling 을 시켜 10번 연속으로 실패하지 않는다면 에러 없이
 프로그램이 실행되도록 하였습니다.
 
-......
+```python
+def brown_text():
+    """Return a single string with the Brown corpus with all punctuation stripped."""
+    sents = load_nltk_brown_corpus()
+    text = " ".join(itertools.chain.from_iterable(sents))
+    text = text.translate({ord(c): None for c in string.punctuation})
+    text = re.sub("  +", " ", text)
+    return text
+
+
+def load_nltk_brown_corpus():
+    """Load the Brown corpus using the NLTK library."""
+    nltk.data.path.append(NLTK_DATA_DIRNAME)
+    try:
+        nltk.corpus.brown.sents()
+    except LookupError:
+        NLTK_DATA_DIRNAME.mkdir(parents=True, exist_ok=True)
+        nltk.download("brown", download_dir=NLTK_DATA_DIRNAME)
+    return nltk.corpus.brown.sents()
+
+if __name__ =="__main__":
+    SentenceGenerator(15)
+```
+`brown_text` itertools.chain.from_iterable(): 여러 iterable에서 요소를 lazy evaluation(generator) 방식으로 하나씩 반환합니다. str.translate는 딕셔너리{a:b}를 받아 a를 b로 변환하는 
+메소드입니다.
