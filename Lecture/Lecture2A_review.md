@@ -75,5 +75,6 @@ receptive field란 output의 특정 weight에 영향을 끼치는 input을 말�
 2. 이미지의 채널을 줄임으로서 목적을 달성할 수도 있습니다.
 
 ## 8. LeNet Architecture
-아래 사이트 
+아래 사이트 참고
+
 https://arclab.tistory.com/150
