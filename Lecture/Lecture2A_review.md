@@ -57,8 +57,22 @@ Convolution Layer에 n개의 필터가 적용된다면 출력 데이터는 n개�
 
 ![5](https://user-images.githubusercontent.com/63699718/119773568-c9676f80-befb-11eb-917f-8c4e702b8e72.PNG)
 
-
-
 ## 6. Increasing the Receptive Field with Dilated Convolutions
+receptive field란 output의 특정 weight에 영향을 끼치는 input을 말합니다. 아래 그림에서 3곱하기3 크기에 해당하는 부분이 receptive field라 합니다.
+
+![6](https://user-images.githubusercontent.com/63699718/119774627-670f6e80-befd-11eb-9aa1-347237f81338.PNG)
+
+여기서 receptive field는 conv operation을 쌓음으로써 키울 수 있습니다. 또한 dilated conv를 통해서도 파라미터를 늘리지 않고도 receptive field를 키울 수 있습니다. 여기서 dilated conv란 필터가 지나가면서 연산을 할때 몇 몇 pixel을 건너 뛰는 겁니다. 
+
+![7](https://user-images.githubusercontent.com/63699718/119775396-80fd8100-befe-11eb-881b-10d2a72880ae.PNG)
+
 ## 7. Decreasing the Tensor Size with Pooling and 1x1-Convolutions
+만약 large image를 input으로 집어넣고 classification처럼 작은 output이 필요하다면 어떻게 해야할까요?
+1. 풀링을 통해 줄일 수도 있습니다. 풀링이란 데이터의 차원을 줄이는 방법으로 어떤 영역에서 가장 큰 수만 택하거나 평균을 택해 차원을 줄일 수 있습니다. 
+
+![8](https://user-images.githubusercontent.com/63699718/119776587-14838180-bf00-11eb-923e-b81ff03d6730.PNG)
+
+2. 이미지의 채널을 줄임으로서 목적을 달성할 수도 있습니다.
+
 ## 8. LeNet Architecture
+
