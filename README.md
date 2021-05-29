@@ -13,3 +13,9 @@ ___
 - [여상엽](https://github.com/sosick377)
 
 ___
+# Schedule
+
+|day|Topic|Role|Remark|
+|---|---|---|---|
+|21.05.21|1.Fundamental|* Presenter : 엄다연 <br>* Lecture1 : 조준우 <br>* Lab1 : 허원재 | 스터디 방식, 일정 수립, 역할 배분 | 
+|21.05.31|2.CNNs|* Presenter : 허원재 <br>* Lecture2A : 조준우 <br>* Lecture2B : 여상엽 <br>* Lab : 엄다연 | - |
