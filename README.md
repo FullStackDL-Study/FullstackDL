@@ -22,8 +22,7 @@ ___
 
 # Schedule 2 
 
-|day|Topic|엄다연|여상엽|조준우|허원재|
-|---|---|---|---|---|---|
-|21.05.21|1.Fundamental| Presenter, 역할 배분 | - | Lecture1 정리 | Lab 정리 , CodeReview |
-|21.05.31|2.CNNs|-|-|-|-|
-
+|day|Topic|엄다연|여상엽|조준우|허원재|비고|
+|---|---|---|---|---|---|---|
+|21.05.21|1.Fundamental| Presenter, 역할 배분 | - | Lecture1 정리 | Lab 정리 , CodeReview |-|
+|21.05.31|2.CNNs|-|-|-|-|-|
