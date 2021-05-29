@@ -302,18 +302,410 @@ https://pytorch-lightning.readthedocs.io/en/latest/common/debugging.html?highlig
 
 * `notebooks/02-look-at-emnist-lines.ipynb`를 확인하세요
 
-[fsdl-text-recognizer-2021-labs/02-look-at-emnist-lines.ipynb at main · full-stack-deep-learning/fsdl-text-recognizer-2021-labs (github.com)](https://github.com/full-stack-deep-learning/fsdl-text-recognizer-2021-labs/blob/main/lab2/notebooks/02-look-at-emnist-lines.ipynb)
+  [fsdl-text-recognizer-2021-labs/02-look-at-emnist-lines.ipynb at main · full-stack-deep-learning/fsdl-text-recognizer-2021-labs (github.com)](https://github.com/full-stack-deep-learning/fsdl-text-recognizer-2021-labs/blob/main/lab2/notebooks/02-look-at-emnist-lines.ipynb)
 
-이 실습은 자기가 직접 손글씨를 써보고, 잘 인식되는지 확인해보는 실습입니다.! 
+* 이 실습의 목적은 EMNIST 글자들이 합쳐진 synthetic dataset을 만들어 한줄에 출력해보는 것입니다. 
+
+* 옵션으로 약간의 랜덤 overlap을 줄 수도 있습니다. 
 
 
 
-(수정 중)
+```python
+%matplotlib inline
+import matplotlib.pyplot as plt
+import nltk
+import numpy as np
+
+%load_ext autoreload
+%autoreload 2
+
+from importlib.util import find_spec
+if find_spec("text_recognizer") is None:
+    import sys
+    sys.path.append('..')
+
+from text_recognizer.data.emnist_lines import EMNISTLines, construct_image_from_string, get_samples_by_char
+from text_recognizer.data.sentence_generator import SentenceGenerator
+```
+
+* EMNISTLines라는 새로운 데이터를 import 해줍니다. 
+* 기본적인 아이디어는 현실의 손글씨를 인식해서 텍스트를 생성해내는 것입니다. 
+
+
+
+```python
+sentence_generator = SentenceGenerator()
+for _ in range(4):
+    print(sentence_generator.generate(max_length=16))
+    
+>>>
+name anyway
+accept
+in school
+the Democratic
+```
+
+* 처음으로 현실에서 generate 할 문장을 출력합니다.  그리고 나서 가짜 손글씨 line을 출력할 것입니다.
+* 이 `sentence_generator` 는 `brown corpus` 를 사용했습니다. 
+  * `brown corpus` 는 다양한 장르의 구조화된 영어 텍스트 샘플 말뭉치입입니다. 
+* sentence의 `max_length` 는 16으로 설정하여 랜덤으로 문장을 출력했습니다. 저는 name anyway accept in school the Democratic 이 나왔네요 
+
+ 
+
+```python
+import argparse
+args = argparse.Namespace(max_length=16, max_overlap=0)
+dataset = EMNISTLines(args)
+dataset.prepare_data()
+dataset.setup()
+print(dataset)
+print('Mapping:', dataset.mapping)
+
+>>> 
+EMNIST Lines Dataset
+Min overlap: 0
+Max overlap: 0
+Num classes: 83
+Dims: (1, 28, 448)
+Output dims: (16, 1)
+Train/val/test sizes: 10000, 2000, 2000
+Batch x stats: (torch.Size([128, 1, 28, 448]), torch.float32, tensor(0.), tensor(0.0777), tensor(0.2379), tensor(1.))
+Batch y stats: (torch.Size([128, 16]), torch.int64, tensor(3), tensor(66))
+
+Mapping: ['<B>', '<S>', '<E>', '<P>', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A
+```
+
+* 그리고 생성된 문장을 생성해서 EMNIST Lines Dataset을 만들어줍니다. 
+
+* `max_overlap` 은 문장간 겹치는 것이 없도록 설정하는 파라미터입니다.
+
+
+
+```python
+def convert_y_label_to_string(y, dataset=dataset):
+    return ''.join([dataset.mapping[i] for i in y])
+
+y_example = dataset.data_train[0][1]
+print(y_example, y_example.shape)
+convert_y_label_to_string(y_example)
+
+>>> 
+[48 59 66 45 54 57 42 44  3  3  3  3  3  3  3  3] (16,)
+it force<P><P><P><P><P><P><P><P>
+```
+
+* 여기에서 볼 수 있는 `<P>` 는 Padding을 위한 special token입니다.  `sentence_generator` 의 max_length가 16이기 때문에 단어 이외의 나머지 공간을 `<p>` 로 채우는 것입니다. 
+
+
+
+```python
+num_samples_to_plot = 9
+
+for i in range(num_samples_to_plot):
+    plt.figure(figsize=(20, 20))
+    x, y = dataset.data_train[i]
+    sentence = convert_y_label_to_string(y) 
+    print(sentence)
+    plt.title(sentence)
+    plt.imshow(x.squeeze(), cmap='gray')
+    
+>>> 
+it force<P><P><P><P><P><P><P><P>
+at this years<P><P><P>
+the<P><P><P><P><P><P><P><P><P><P><P><P><P>
+unsupportable<P><P><P>
+that way<P><P><P><P><P><P><P><P>
+59<P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+world<P><P><P><P><P><P><P><P><P><P><P>
+followed<P><P><P><P><P><P><P><P>
+as<P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+```
+
+<img src=".\img\image-7.png" >
+
+(이하 이미지생략)
+
+생성된 EMNIST Lines가 나빠보이진 않네요. 
+
+
+
+다음은 조금 더 어렵게 한 줄에 글자의 최대 수를 확장해보고, 글자 간의 overlap 값도 랜덤 값으로 전달해보겠습니다. 
+
+```python
+args = argparse.Namespace(max_length=34, max_overlap=0.33)
+dataset = EMNISTLines(args)
+dataset.prepare_data()
+dataset.setup()
+print(dataset)
+
+>>> 
+EMNIST Lines Dataset
+Min overlap: 0
+Max overlap: 0.33
+Num classes: 83
+Dims: (1, 28, 952)
+Output dims: (34, 1)
+Train/val/test sizes: 10000, 2000, 2000
+Batch x stats: (torch.Size([128, 1, 28, 952]), torch.float32, tensor(0.), tensor(0.0805), tensor(0.2416), tensor(1.))
+Batch y stats: (torch.Size([128, 34]), torch.int64, tensor(3), tensor(66))
+```
+
+* 마찬가지로 EMNISTLines의 dataset을 만들어주고, `max_length` 를 34까지 늘리고, `max_overlap`을 0.33 값으로 줍니다. 
+
+
+
+```python
+num_samples_to_plot = 9
+
+for i in range(num_samples_to_plot):
+    plt.figure(figsize=(20, 20))
+    x, y = dataset.data_train[i]
+    sentence = convert_y_label_to_string(y) 
+    print(sentence)
+    plt.title(sentence)
+    plt.imshow(x.squeeze(), cmap='gray')
+    
+>>> 
+phase of Newark will<P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+the fire for washing<P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+go much further than<P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+up Dont<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+resolutely at<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+abrupt end<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+high ground<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+voyage The sickness was<P><P><P><P><P><P><P><P><P><P><P>
+I said Its a kindness to<P><P><P><P><P><P><P><P><P><P>
+```
+
+<img src=".\img\image-8.png" >
+
+* 조금 더 생성된 단어들이 문장스러워 졌습니다. 하지만 말이 되는것 같진 않네요. 
 
 
 
 ### Homework
 
-cnn.py를 resnet과 유사하게 바꿔서 모델 성능 높여보기 
+cnn.py를 resnet과 유사하게 바꿔서 모델 성능 높여보는 것이 숙제입니다. 
 
-(수정 중)
+Residual block은 아래와 같습니다. 
+
+<img src=".\img\image-9.png" height='400'>
+
+아래의 사항을 시도 해보세요. 
+
+* `BatchNorm` 과 같은 ResNet의 secret sauce를 추가해보세요 . 공식 ResNet PyTorch 실행을 참고하면 아이디어를 확인해볼 수 있습니다. 
+
+  https://github.com/pytorch/vision/blob/master/torchvision/models/resnet.py
+
+* `MaxPool2D`를 제거해 보세요. 아마 대신에 strided convolution을 사용해야 할 것입니다. 
+
+* 더 빠른 연산을 수행할 다른 인자들을 command-line에 추가해보세요 
+
+* 추가할 좋은 인자는 입력을 실행할 ConvBlocks의 수에 대한 것입니다. 
+
+
+
+밑에 보시기 전에 **자기가 직접 수정**해보시길 바랍니다:) 아래 부터는 저의 삽질 과정이 기록되어 있습니다. 
+
+
+
+
+
+
+
+
+
+
+
+먼저 cnn.py의 forward 함수 부분을 보겠습니다. 
+
+```python
+def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """
+        Args:
+        x
+            (B, C, H, W) tensor, where H and W must equal IMAGE_SIZE
+
+        Returns
+        -------
+        torch.Tensor
+            (B, C) tensor
+        """
+        _B, _C, H, W = x.shape
+        assert H == W == IMAGE_SIZE
+        x = self.conv1(x)
+        x = self.conv2(x)
+        x = self.max_pool(x)
+        x = self.dropout(x)
+        x = torch.flatten(x, 1)
+        x = self.fc1(x)
+        x = F.relu(x)
+        x = self.fc2(x)
+        return x
+```
+
+* 전에 학습을 수행했을 때는, test_acc가 0.806 정도 나왔습니다. 
+
+* 여기있는 forward 함수부분을 residual block 처럼 아래와 같이 수정해보겠습니다. 
+
+
+
+```python
+ def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """
+        Args:
+        x
+            (B, C, H, W) tensor, where H and W must equal IMAGE_SIZE
+
+        Returns
+        -------
+        torch.Tensor
+            (B, C) tensor
+        """
+        _B, _C, H, W = x.shape
+        assert H == W == IMAGE_SIZE
+        x_residual = x 
+        x = self.conv1(x)
+        x = F.relu(x)
+        x = self.conv2(x)
+        x += x_residual 
+        x = F.relu(x)
+        return x
+```
+
+오류가 뜨네요. 이렇게 하면 안되나봅니다.  
+
+
+
+```python
+RuntimeError                              Traceback (most recent call last)
+<ipython-input-27-4e604aa010a2> in <module>()
+      6 lit_model = BaseLitModel(model=model)
+      7 trainer = pl.Trainer(gpus=1, max_epochs=5)
+----> 8 trainer.fit(lit_model, datamodule=data)
+
+14 frames
+/usr/local/lib/python3.7/dist-packages/torch/nn/functional.py in nll_loss(input, target, weight, size_average, ignore_index, reduce, reduction)
+   2388         ret = torch._C._nn.nll_loss(input, target, weight, _Reduction.get_enum(reduction), ignore_index)
+   2389     elif dim == 4:
+-> 2390         ret = torch._C._nn.nll_loss2d(input, target, weight, _Reduction.get_enum(reduction), ignore_index)
+   2391     else:
+   2392         # dim == 3 or dim > 4
+
+RuntimeError: 1only batches of spatial targets supported (3D tensors) but got targets of size: : [128]
+```
+
+저는 이런 RuntimeError가 나오네요. target size는 [128] 인데..  torch의 shape가 안맞아서 계산이 안되나 봅니다. 어떻게 하면 좋을까요? 
+
+살짝 pytorch의 공식 resnet.py를 보고 디버깅을 시작해봐야겠네요 .
+
+
+
+**Q1. Whats the difference between nn.relu() vs F.relu()** 
+
+여기에서 쓰인 CNN.py는 relu를 F.relu()함수를 사용했고, ResNet.py에선 nn.relu()를 사용했습니다. 
+
+검색해보니, `nn.ReLU()` module은 `nn.Sequential` 모듈과 같은 것을 모델에 추가할 수 있지만, `nn.functional.relu` 는 `forward` method에 추가할 수 있다고 하네요. 코딩 스타일 문제이지 큰 차이 없는 것 같습니다.  
+
+
+
+최대한 원본 `foward` 를 건드리지 않고, skip connection 아이디어만 추가하여 아래와 같이 `foward` method를 수정해보니 코드가 돌아가네요. 과연 성능이 향상되었을 까요? 
+
+
+
+```python
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """
+        Args:
+        x
+            (B, C, H, W) tensor, where H and W must equal IMAGE_SIZE
+
+        Returns
+        -------
+        torch.Tensor
+            (B, C) tensor
+        """
+        _B, _C, H, W = x.shape
+        assert H == W == IMAGE_SIZE
+
+        identity = x 
+        x = self.conv1(x)
+        x = self.conv2(x)
+        x += identity
+        
+        x = self.max_pool(x)
+        x = self.dropout(x)
+        x = torch.flatten(x, 1)
+        x = self.fc1(x)
+        x = F.relu(x)
+        x = self.fc2(x)
+        return x
+```
+
+
+
+수정된 CNN.py를 저장해주고, 아래 코드를 재실행하여 모델을 재학습시켜줍니다. 
+
+```python 
+import pytorch_lightning as pl
+from text_recognizer.models import CNN
+from text_recognizer.lit_models import BaseLitModel
+
+model = CNN(data_config=data.config())
+lit_model = BaseLitModel(model=model)
+trainer = pl.Trainer(gpus=1, max_epochs=5)
+trainer.fit(lit_model, datamodule=data)
+```
+
+<img src=".\img\image-10.png" >
+
+코드를 수정하기 전에는 val_loss : 0.568, val_acc : 0.788 이었는데, skip connection 아이디어를 추가하니 val_loss : 0.605, val_acc : 0.777 로 loss는 증가하고 acc는 떨어졌네요...계속 진행해보겠습니다. 
+
+
+
+```python
+fig = plt.figure(figsize=(9, 9))
+for i in range(9):
+    ax = fig.add_subplot(3, 3, i + 1)
+    rand_i = np.random.randint(len(data.data_test))
+    image, label = data.data_test[rand_i]
+
+    image_for_model = image.unsqueeze(0)  # (1, 1, 28, 28)
+    logits = model(image_for_model)  # (1, C)
+    pred_ind = logits.argmax(-1)  # (1, )
+    pred_label = data.mapping[pred_ind]
+
+    ax.imshow(image.reshape(28, 28), cmap='gray')
+    ax.set_title(f'Correct: {data.mapping[label]}, Pred: {pred_label}')
+```
+
+```python 
+import pytorch_lightning as pl
+from text_recognizer.models import CNN
+from text_recognizer.lit_models import BaseLitModel
+
+model = CNN(data_config=data.config())
+lit_model = BaseLitModel(model=model)
+trainer = pl.Trainer(gpus=1, max_epochs=5)
+trainer.fit(lit_model, datamodule=data)
+```
+
+<img src=".\img\image-11.png" >
+
+이번에는 틀린 것도 나오네요. 첫번째 그림은 2인데 Z 로 예측했습니다. 이건 사람이 봐도 잘 모를것 같아요. 
+
+이제 터미널에서 `run_experiment.py` 모듈을 실행해보겠습니다. 
+
+```python
+!python3 training/run_experiment.py --model_class=CNN --data_class=EMNIST --max_epochs=5 --gpus=1 --num_workers=4
+```
+
+전에는 test_acc : 0.806 이었는데, 어떻게 될까요? 
+
+```python
+>>> DATALOADER:0 TEST RESULTS
+    {'test_acc': 0.7758020162582397}
+```
+
+아 성능이 올라가진 않았네요. 제대로된 Residual Block으로 모델을 구성한 뒤, 학습을 해야 신경망을 깊게 구성하여 성능을 올릴 수 있나봅니다. 
+
