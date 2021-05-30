@@ -20,9 +20,3 @@ ___
 |21.05.21|1.Fundamental|* Presenter : 엄다연 <br>* Lecture1 : 조준우 <br>* Lab1 : 허원재 | 스터디 방식, 일정 수립, 역할 배분 | 
 |21.05.31|2.CNNs|* Presenter : 허원재 <br>* Lecture2A : 조준우 <br>* Lecture2B : 여상엽 <br>* Lab : 엄다연 | - |
 
-# Schedule 2 
-
-|day|Topic|엄다연|여상엽|조준우|허원재|비고|
-|---|---|---|---|---|---|---|
-|21.05.21|1.Fundamental| Presenter, 역할 배분 | - | Lecture1 정리 | Lab 정리 , CodeReview |-|
-|21.05.31|2.CNNs|-|-|-|-|-|
