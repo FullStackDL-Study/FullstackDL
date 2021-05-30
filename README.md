@@ -15,7 +15,7 @@ ___
 ___
 # Schedule
 
-|day|Topic|Role|Remark|
+|day|Topic|Role|Tag|
 |---|---|---|---|
-|21.05.21|1.Fundamental|* Presenter : 엄다연 <br>* Lecture1 : 조준우 <br>* Lab1 : 허원재 | 스터디 방식, 일정 수립, 역할 배분 <br> Setup , Introduction, <br> How the backpropagation algoritm works| 
-|21.05.30|2.CNNs|* Presenter : 허원재 <br>* Lecture2A : 조준우 <br>* Lecture2B : 여상엽 <br>* Lab : 엄다연 | - |
+|21.05.21|1.Fundamental|* Presenter : 엄다연 <br>* Lecture1 : 조준우 <br>* Lab1 : 허원재 <br>* git-manager: 여상엽 |# Neural Networks # Universality <br> # Learning Problems # Loss Function <br> # Backpropagation # CUDA # Setup <br> # Train MLP model MNIST <br> # Tensorflow # Pytorch | 
+|21.05.30|2.CNNs|* Presenter : 허원재 <br>* Lecture2A : 조준우 <br>* Lecture2B : 여상엽 <br>* Lab : 엄다연 | # Conv # Stride # Padding # Receptive Field <br> # 1x1 Conv # AlexNet # ZFNet <br> # VGGNet # GoogLeNet # RestNet <br> # Localization  # Detection # Overfit # Adversarial Attacks <br> # Train CNN Model EMNIST # synthetic EMNIST lines |
