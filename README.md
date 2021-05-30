@@ -10,7 +10,7 @@ ___
 - [허원재](https://github.com/rukka0808)
 - [엄다연](https://github.com/dayeoni-1376)
 - [조준우](https://github.com/fifane)
-- [여상엽](https://github.com/sosick377)
+- [여상엽](https://github.com/Sang-Yeop-Yeo)
 
 ___
 # Schedule
