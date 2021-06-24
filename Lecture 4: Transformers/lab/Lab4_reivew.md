@@ -18,6 +18,9 @@
 python training/run_experiment.py --max_epochs=40 --gpus=1 --num_workers=16 --data_class=EMNISTLines --min_overlap=0 --max_overlap=0.33 --model_class=LineCNNTransformer --window_width=20 --window_stride=12 --loss=transformer
 
 ```
+~30 epochs 까지는 이전에 얻을 수 있는 성능과 동일한 성능을 제공한다.
+기존의 하이퍼파라미터는 window_width=20 과 window_stride=12 을 사용하여 진행한다.
+
 
 ## Result
 ```
@@ -144,4 +147,4 @@ DATALOADER:0 TEST RESULTS
 {'test_cer': tensor(0.5835, device='cuda:0')}
 --------------------------------------------------------------------------------
 ```
-  
+val_cer 의 값이 0.583 정도로 나온 것을 알 수 있다.
