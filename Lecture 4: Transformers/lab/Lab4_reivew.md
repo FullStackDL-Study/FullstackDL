@@ -19,6 +19,7 @@ python training/run_experiment.py --max_epochs=40 --gpus=1 --num_workers=16 --da
 
 ```
 ~30 epochs 까지는 이전에 얻을 수 있는 성능과 동일한 성능을 제공한다.
+
 기존의 하이퍼파라미터는 window_width=20 과 window_stride=12 을 사용하여 진행한다.
 
 
