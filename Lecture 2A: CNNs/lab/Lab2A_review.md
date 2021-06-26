@@ -30,7 +30,8 @@
 %env PYTHONPATH=.:$PYTHONPATH
 ```
 
-<img src=".\img\image-1.png" height = "200px">
+![image-1](https://user-images.githubusercontent.com/58576154/123504685-b92ae780-d695-11eb-9a36-41994a6a80ff.png)
+
 
 git clone을 하면 다음과 같이 colab의 content 폴더 내에 git-repository가 clone되어 추가됩니다. 
 
@@ -81,7 +82,8 @@ from text_recognizer.data.emnist import EMNIST
 
 * EMNIST 모듈을 import 합니다. 
 
-<img src=".\img\image-2.png" height = "200px">
+![image-2](https://user-images.githubusercontent.com/58576154/123504686-b92ae780-d695-11eb-91b3-810de8062279.png)
+
 
 * 다음 폴더의 emnist.py 모듈에 있는 EMNIST class를 불러오는 의미입니다. 
 
@@ -133,7 +135,7 @@ for i in range(9):
     ax.set_title(data.mapping[label])
 ```
 
-<img src=".\img\image-3.png" height = "500px">
+<img width="404" alt="image-3" src="https://user-images.githubusercontent.com/58576154/123504687-b9c37e00-d695-11eb-821e-1271aa4d5bcc.png">
 
 * 각 이미지를 출력해보았습니다. class가 무엇인지와 어떤 그림인지 출력되었습니다. 
 
@@ -166,7 +168,8 @@ LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
 6.616     Total estimated model params size (MB)
 ```
 
-<img src=".\img\image-4.png">
+![image-4](https://user-images.githubusercontent.com/58576154/123504688-b9c37e00-d695-11eb-8b41-de67f3729965.png)
+
 
 * 5 epoch을 학습시켜보겠습니다. GPU를 활성화시켜야, 학습이 5분내로 끝난다는점 주의 해주세요. 
 * pytorch_lightning에서 cnn 모델을 import 하여 lit_model을 학습시켜줍니다. 
@@ -216,7 +219,7 @@ for i in range(9):
     ax.set_title(f'Correct: {data.mapping[label]}, Pred: {pred_label}')
 ```
 
-<img src=".\img\image-5.png" height = "500px">
+<img width="308" alt="image-5" src="https://user-images.githubusercontent.com/58576154/123504689-ba5c1480-d695-11eb-9182-d00be8da4766.png">
 
 * 이제 모델이 예측한 것과 실제 값을 시각화 하여 확인해보겠습니다. 
 * 랜덤으로 9개 출력해 보았는데 전부 잘 예측한 것 같습니다. 
@@ -240,7 +243,7 @@ colab에서는 ! 느낌표를 앞에다가 적으면 terminal에서 입력한 �
 
 * max_epoch은 5, gpus는 1, data_class 는 MNIST로 모듈을 run할 수 있습니다. 노트북 보다 훨씬더 빠르게 실행이 됩니다. 
 
-<img src=".\img\image-6.png" height = "200px">
+<img width="128" alt="image-6" src="https://user-images.githubusercontent.com/58576154/123504690-baf4ab00-d695-11eb-8ce3-95a1d6302e49.png">
 
 * 실행하면 `lab2/text_recognizer/models` 폴더에 `cnn.py` 모듈이 새로 생성되었을 겁니다. 
 * `cnn.py` 모듈을 확인하면, 네트워크 구조가 어떻게 설계되었는지 확인해볼 수 있습니다.
@@ -421,7 +424,7 @@ followed<P><P><P><P><P><P><P><P>
 as<P><P><P><P><P><P><P><P><P><P><P><P><P><P>
 ```
 
-<img src=".\img\image-7.png" >
+<img width="655" alt="image-7" src="https://user-images.githubusercontent.com/58576154/123504692-baf4ab00-d695-11eb-9a8d-a2b607432846.png">
 
 (이하 이미지생략)
 
@@ -477,7 +480,7 @@ voyage The sickness was<P><P><P><P><P><P><P><P><P><P><P>
 I said Its a kindness to<P><P><P><P><P><P><P><P><P><P>
 ```
 
-<img src=".\img\image-8.png" >
+<img width="656" alt="image-8" src="https://user-images.githubusercontent.com/58576154/123504694-bb8d4180-d695-11eb-82f7-efc6c53035c4.png">
 
 * 조금 더 생성된 단어들이 문장스러워 졌습니다. 하지만 말이 되는것 같진 않네요. 
 
@@ -489,7 +492,7 @@ cnn.py를 resnet과 유사하게 바꿔서 모델 성능 높여보는 것이 숙
 
 Residual block은 아래와 같습니다. 
 
-<img src=".\img\image-9.png" height='400'>
+<img width="557" alt="image-9" src="https://user-images.githubusercontent.com/58576154/123504695-bc25d800-d695-11eb-953a-f78adabda6e3.png">
 
 아래의 사항을 시도 해보세요. 
 
@@ -657,7 +660,7 @@ trainer = pl.Trainer(gpus=1, max_epochs=5)
 trainer.fit(lit_model, datamodule=data)
 ```
 
-<img src=".\img\image-10.png" >
+<img width="473" alt="image-10" src="https://user-images.githubusercontent.com/58576154/123504696-bc25d800-d695-11eb-9040-43e5057abf10.png">
 
 코드를 수정하기 전에는 val_loss : 0.568, val_acc : 0.788 이었는데, skip connection 아이디어를 추가하니 val_loss : 0.605, val_acc : 0.777 로 loss는 증가하고 acc는 떨어졌네요...계속 진행해보겠습니다. 
 
@@ -690,7 +693,7 @@ trainer = pl.Trainer(gpus=1, max_epochs=5)
 trainer.fit(lit_model, datamodule=data)
 ```
 
-<img src=".\img\image-11.png" >
+![image-11](https://user-images.githubusercontent.com/58576154/123504698-bcbe6e80-d695-11eb-9889-a19ee7ef3a26.png)
 
 이번에는 틀린 것도 나오네요. 첫번째 그림은 2인데 Z 로 예측했습니다. 이건 사람이 봐도 잘 모를것 같아요. 
 
