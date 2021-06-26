@@ -143,7 +143,7 @@ os.getcwd()
 >
 > Accuracy class 수정: dim = -1 => dim = 1 
 >
-> ![image-12](../img/img-12.png)
+> <img width="278" alt="img-12" src="https://user-images.githubusercontent.com/58576154/123504699-bcbe6e80-d695-11eb-93d1-b48e86a76d16.png">
 >
 > [Lab 3 - base.py Acccuracy.update() Error: · Issue #27 · full-stack-deep-learning/fsdl-text-recognizer-2021-labs · GitHub](https://github.com/full-stack-deep-learning/fsdl-text-recognizer-2021-labs/issues/27)
 >
@@ -173,11 +173,11 @@ os.getcwd()
 
 * 이전에 실행했던 코드에서는 window_width가 28, window_stride가 28 이었기 때문에 windows가 아래와 같이 겹치지 않았습니다. 
 
-![image-14](../img/img-14.png)
+<img width="193" alt="img-14" src="https://user-images.githubusercontent.com/58576154/123504701-bd570500-d695-11eb-9606-2b2e8d116a82.png">
 
 * 하지만 이번 code에서는 window_with = 28, window_stride = 20 이기 때문에 아래와 같이 window가 겹치게 됩니다. 
 
-![image-13](../img/img-13.png)
+<img width="194" alt="img-13" src="https://user-images.githubusercontent.com/58576154/123504700-bd570500-d695-11eb-9a24-20d57efd23e6.png">
 
 * Oops! 실행해보니까 아래와 같은 오류 메세지가 나오네요.
 
@@ -580,7 +580,7 @@ class CTCLitModel(BaseLitModel):  # pylint: disable=too-many-ancestors
 >
 > preds => preds.float()로 수정 
 >
-> ![image-15](../img/img-15.png)
+> <img width="314" alt="img-15" src="https://user-images.githubusercontent.com/58576154/123504702-bdef9b80-d695-11eb-902c-3eb48b07d3c2.png">
 >
 > https://github.com/full-stack-deep-learning/fsdl-text-recognizer-2021-labs/issues/28
 >
