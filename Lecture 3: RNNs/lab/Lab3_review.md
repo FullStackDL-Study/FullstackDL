@@ -143,7 +143,7 @@ os.getcwd()
 >
 > Accuracy class 수정: dim = -1 => dim = 1 
 >
-> ![image-12](.\img\img-12.png)
+> ![image-12](../img/img-12.png)
 >
 > [Lab 3 - base.py Acccuracy.update() Error: · Issue #27 · full-stack-deep-learning/fsdl-text-recognizer-2021-labs · GitHub](https://github.com/full-stack-deep-learning/fsdl-text-recognizer-2021-labs/issues/27)
 >
@@ -173,11 +173,11 @@ os.getcwd()
 
 * 이전에 실행했던 코드에서는 window_width가 28, window_stride가 28 이었기 때문에 windows가 아래와 같이 겹치지 않았습니다. 
 
-![image-14](.\img\img-14.png)
+![image-14](../img/img-14.png)
 
 * 하지만 이번 code에서는 window_with = 28, window_stride = 20 이기 때문에 아래와 같이 window가 겹치게 됩니다. 
 
-![image-13](.\img\img-13.png)
+![image-13](../img/img-13.png)
 
 * Oops! 실행해보니까 아래와 같은 오류 메세지가 나오네요.
 
@@ -580,7 +580,7 @@ class CTCLitModel(BaseLitModel):  # pylint: disable=too-many-ancestors
 >
 > preds => preds.float()로 수정 
 >
-> ![image-15](.\img\img-15.png)
+> ![image-15](../img/img-15.png)
 >
 > https://github.com/full-stack-deep-learning/fsdl-text-recognizer-2021-labs/issues/28
 >
