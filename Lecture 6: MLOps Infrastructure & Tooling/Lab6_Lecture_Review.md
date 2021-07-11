@@ -1,4 +1,4 @@
-<참고 이미지> 
+# <참고 이미지> 
 ![image](https://user-images.githubusercontent.com/74453299/125166233-9a6c3b00-e1d5-11eb-9084-85f9e912aa83.png)
 
 
@@ -49,6 +49,14 @@ gpu를 직접 구매하는 것이 아니라 클라우드에서 제공하는 걸 
 3. 큰 회사: 모든 ml과학자를 위해 강력한 기계를 구입해라.
 
 # 5 - Resource Management
+자원을 얻었으면 그 자원을 관리해주어야 한다. 이 자원 관리를 통해 원하는때에 ML을 할 수 있도록 해주어야 한다. 이러한 관리에는 아래의 것들을 이용할 수 있다.
+1. 우리 스스로 해결책을 짜기
+2. SLURM같은 standard cluster job scheduler를 이용하기
+3. 도커나 쿠버네틱스 이용하기
+4. 커스톰 ML소프트웨어 이용하기
+
+# 6 - Frameworks and Distributed Training
+
 
 
 
