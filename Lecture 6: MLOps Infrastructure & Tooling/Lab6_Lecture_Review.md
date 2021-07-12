@@ -56,7 +56,19 @@ gpu를 직접 구매하는 것이 아니라 클라우드에서 제공하는 걸 
 4. 커스톰 ML소프트웨어 이용하기
 
 # 6 - Frameworks and Distributed Training
+1.딥러닝 프레임워크
+예전에 딥러닝을 했다면 분명 텐서플로우를 사용했을 것이다. 또한 과거에는 torch나 theano같은 딥러닝 프레임워크가 존재했다. 우리는 production과 development의 관점에서 텐서플로우, 케라스, 파이토치에 집중하겠다. 우선 텐서플로우/케라스나 파이토치를 사용하는 게 특별한 이유가 없다면 좋다. 최근 파이토치는 만들기 쉽다는 점을 앞세워 많이 사용되고 있다. 근데 그렇다면 왜 라이브러리를 사용할까? 물론 넘파이로 구현할 수도 있겠지만 두가지 문제가 있다. 하나는 오차 역전파이고 하나는 gpu로 계산하는 것이다. 우선 우리는 그래디언트를 빨리 계산할 수 있는 프레임워크가 필요하다. 또한 이걸 gpu로 계산을 하는데 software compatibility 때문에 필요하다. 이러한 프레임워크는 우리가 우리가 해야 할 일에만 잘 집중할 수 있도록 해준다. 최근에는 JAX나 HuggingFace가 다르거나 간단한 추상화를 제공한다. 
+2. distributed training
+이건 하나의 모델 훈련과정을 수행하기위한 과정이다. 이 훈련 방법에는 두가지가 있다. 
+2.1 data parallelism
+2.2 model parallelism
 
+# 7 - Experiment Management
+모델을 재정의하기위해 수많은 실험을 하면 내 코드, 하이퍼파라미터, 아티팩트의 흐름을 놓치기 쉽다. 어떤 플랫폼들은 이러한 문제를 해결해준다. TensorBoard, MLFlow, Comet.ml, Weights and Biases, Neptune 같은 것들이 존재한다.
 
+# 8 - Hyperparameter Tuning
+모델을 완성시키기 위해 우리는 적절한 하이퍼 파라미터를 선택해야 한다. 이러한 행위는 많은 컴퓨팅 파워를 요구해 소프트웨어의 도움을 받을 수 있다. SigOpt, Ray Tune, W&B 등이 있다.
+
+# 9 - “All-In-One” Solutions   
 
 
